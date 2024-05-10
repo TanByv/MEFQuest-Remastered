@@ -57,7 +57,7 @@ class Game:
 
         self.current_map.draw(self.scroll, self.player.pos, self)
         self.player.move(self.current_map)
-        self.player.draw(self.scroll, self.current_map)
+        self.player.draw(self.scroll, self.current_map, self.screen)
 
         self.window.blit(pygame.transform.scale2x(self.screen), (0, 0))
         pygame.display.update()
@@ -76,13 +76,29 @@ class Game:
     def handle_key_events(self):
         key = pygame.key.get_pressed()
 
+       # Reset animation if no movement keys are pressed
+        if not key[pygame.K_a] and not key[pygame.K_d]:
+            self.player.vel.x = 0
+            self.player.update_animation()
+
+        # Handle other key events
         if key[pygame.K_a]:
             self.player.vel += vec2(-self.player.speed, 0)
-        if key[pygame.K_d]:
+            self.player.direction = -1  # Set direction to left
+            self.player.counter += 1  # Increment animation counter
+        elif key[pygame.K_d]:
             self.player.vel += vec2(self.player.speed, 0)
+            self.player.direction = 1  # Set direction to right
+            self.player.counter += 1  # Increment animation counter
+
+        # Update animation if enough frames have passed
+        if self.player.counter > self.player.walk_cooldown:
+            self.player.update_animation()
+            
+            # Handle jump animation
         if key[pygame.K_SPACE] and self.player.standing_on_ground:
             self.player.jump()
+
         if key[pygame.K_ESCAPE] and self.current_map == self.maps[0]:
             self.game_is_running = False
-
 
