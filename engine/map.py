@@ -39,6 +39,10 @@ class Map:
         self.map1_rect = None
 
         self.exit_group = pygame.sprite.Group()
+        exit_gate = Exit(730, 0, 'assets/sprites/door.JPG')
+        yippie = Exit(0, 0, 'assets/sprites/door.JPG')
+        self.exit_group.add(exit_gate)
+        self.exit_group.add(yippie)
 
         self.map_rects: List[pygame.Rect] = []
         for i in range(len(self.data)):
@@ -106,10 +110,6 @@ class Map:
             pygame.draw.rect(self.surface, (255, 0, 0), self.map1_rect.move(-scroll))
 
         if game.current_map == game.maps[0]:
-            exit_gate = Exit(730, 0, 'assets/sprites/door.JPG')
-            yippie = Exit(0, 0, 'assets/sprites/door.JPG')
-            self.exit_group.add(exit_gate)
-            self.exit_group.add(yippie)
             for exit_gate in self.exit_group.sprites():
                 exit_rect = exit_gate.rect.move(-scroll)
                 self.surface.blit(exit_gate.scaled_image, exit_rect)
