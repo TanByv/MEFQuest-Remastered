@@ -110,14 +110,11 @@ class Map:
 
     def draw(self, scroll, player_pos: vec2, game):
         if self.path == "assets/maps/map1.csv":
+            # Calculate the background offset based on the player's position
+            background_offset_x = (player_pos.x - self.player_pos.x) % self.background_width
             # Draw scrolling background
             for i in range(0, self.tiles):
-                self.surface.blit(self.background_image, (i * self.background_width + self.scroll, 0))
-            # Scroll background
-            self.scroll -= 5
-            # Reset scroll if it goes beyond the background width
-            if abs(self.scroll) > self.background_width:
-                self.scroll = 0
+                self.surface.blit(self.background_image, (i * self.background_width - background_offset_x, 0))
 
 
         self.nearby_rects.clear()
