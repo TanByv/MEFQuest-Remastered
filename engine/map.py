@@ -4,6 +4,8 @@ from typing import List
 import pygame
 from pygame import Vector2 as vec2
 
+import math
+
 class Exit(pygame.sprite.Sprite):
     def __init__(self, x, y, img_path, scale=0.5):
         pygame.sprite.Sprite.__init__(self)
@@ -21,6 +23,17 @@ class Exit(pygame.sprite.Sprite):
         
 class Map:
     def __init__(self, path: str, surface: pygame.surface.Surface, size: float) -> None:
+        self.background_image = pygame.image.load("assets/sprites/jetpack.png").convert_alpha()
+        self.background_width = self.background_image.get_rect().width
+        self.background_height = self.background_image.get_rect().height
+        # Scale the background image vertically to fit the game window
+        self.background_image = pygame.transform.scale(
+            self.background_image,
+            (self.background_width, surface.get_height())
+        )
+        self.tiles = math.ceil(self.background_width / surface.get_width()) + 1
+        self.scroll = 0
+
         self.path = path
         self.surface = surface
         self.map_rect_width = size
@@ -96,6 +109,17 @@ class Map:
         self.map1_enabled = False
 
     def draw(self, scroll, player_pos: vec2, game):
+        if self.path == "assets/maps/map1.csv":
+            # Draw scrolling background
+            for i in range(0, self.tiles):
+                self.surface.blit(self.background_image, (i * self.background_width + self.scroll, 0))
+            # Scroll background
+            self.scroll -= 5
+            # Reset scroll if it goes beyond the background width
+            if abs(self.scroll) > self.background_width:
+                self.scroll = 0
+
+
         self.nearby_rects.clear()
         for rect in self.map_rects:
             distance = (player_pos - vec2(rect.center)).magnitude_squared()
