@@ -4,26 +4,21 @@ from typing import List
 import pygame
 from pygame import Vector2 as vec2
 
-class Enemy(pygame.sprite.Sprite):
-    def __init__(self, x, y, scale=3):
-        pygame.sprite.Sprite.__init__(self)
-        self.original_image = pygame.image.load('assets/sprites/blob.png')
-        self.scaled_image = pygame.transform.scale(self.original_image, (int(self.original_image.get_width() * scale), int(self.original_image.get_height() * scale)))
-        self.rect = self.scaled_image.get_rect()
-        self.rect.x = x
-        self.rect.y = y
-        self.move_direction = 1
-        self.move_counter = 0
-
 class Exit(pygame.sprite.Sprite):
-    def __init__(self, x, y, scale=0.5):
+    def __init__(self, x, y, img_path, scale=0.5):
         pygame.sprite.Sprite.__init__(self)
-        self.original_image = pygame.image.load('img/exit_gate.JPG')
-        self.scaled_image = pygame.transform.scale(self.original_image, (int(self.original_image.get_width() * scale), int(self.original_image.get_height() * scale)))
+        self.original_image = pygame.image.load(img_path)
+        self.scaled_image = pygame.transform.scale(
+            self.original_image,
+            (
+                int(self.original_image.get_width() * scale),
+                int(self.original_image.get_height() * scale)
+            )
+        )
         self.rect = self.scaled_image.get_rect()
         self.rect.x = x
         self.rect.y = y
-
+        
 class Map:
     def __init__(self, path: str, surface: pygame.surface.Surface, size: float) -> None:
         self.path = path
@@ -31,8 +26,6 @@ class Map:
         self.map_rect_width = size
         self.map_tile_image = pygame.Surface((self.map_rect_width, self.map_rect_width))
         self.map_tile_image.fill((100, 100, 100))
-        self.blob_group = pygame.sprite.Group()
-        self.exit_group = pygame.sprite.Group()
 
         self.data = []
         self.light_pos = []
@@ -43,6 +36,9 @@ class Map:
 
         self.start_game_rect = None
         self.end_game_rect = None
+        self.map1_rect = None
+
+        self.exit_group = pygame.sprite.Group()
 
         self.map_rects: List[pygame.Rect] = []
         for i in range(len(self.data)):
@@ -50,7 +46,6 @@ class Map:
                 if self.data[i][j] == '2':
                     self.player_pos = self.map_rect_width * vec2(j, i)
                     self.offset = - self.player_pos + 0.5 * vec2(self.surface.get_size()) - 0.5 * vec2(self.map_rect_width, self.map_rect_width)
-        
         for i in range(len(self.data)):
             for j in range(len(self.data[i])):
                 if self.data[i][j] == '3':
@@ -58,68 +53,66 @@ class Map:
                         j * self.map_rect_width + self.offset.x,
                         i * self.map_rect_width + self.offset.y
                     ))
+                if self.data[i][j] == '7':
+                    self.map1_rect = pygame.Rect(
+                        self.map_rect_width * vec2(j, i) + self.offset,
+                        self.map_rect_width * vec2(1, 1)
+                    )
                 if self.data[i][j] == '8':
                     self.start_game_rect = pygame.Rect(
-                        self.map_rect_width * vec2(j , i) + self.offset,
+                        self.map_rect_width * vec2(j, i) + self.offset,
                         self.map_rect_width * vec2(1, 1)
                     )
                 if self.data[i][j] == '9':
                     self.end_game_rect = pygame.Rect(
-                        self.map_rect_width * vec2(j , i) + self.offset,
+                        self.map_rect_width * vec2(j, i) + self.offset,
                         self.map_rect_width * vec2(1, 1)
                     )
-
         for i in range(len(self.data)):
             for j in range(len(self.data[i])):
                 if self.data[i][j] == '1':
-                    self.map_rects.append( pygame.Rect((
+                    self.map_rects.append(pygame.Rect((
                         j * self.map_rect_width + self.offset.x,
                         i * self.map_rect_width + self.offset.y,
                         self.map_rect_width,
                         self.map_rect_width
-                        )))
-                if self.data[i][j] == '10':
-                    blob = Enemy(j * self.map_rect_width, i * self.map_rect_width)
-                    self.blob_group.add(blob)
-                if self.data[i][j] == '12':
-                    exit_gate = Exit(j * self.map_rect_width, i * self.map_rect_width - 170)
-                    self.exit_group.add(exit_gate)
+                    )))
 
-        if self.start_game_rect and self.end_game_rect:
+        if self.start_game_rect:
             self.map_rects.append(self.start_game_rect)
+        if self.end_game_rect:
             self.map_rects.append(self.end_game_rect)
+        if self.map1_rect:
+            self.map_rects.append(self.map1_rect)
 
         self.nearby_rects = []
 
         self.start_game_enabled = False
         self.end_game_enabled = False
+        self.map1_enabled = False
 
-    def draw(self, scroll, player_pos: vec2): 
+    def draw(self, scroll, player_pos: vec2, game):
         self.nearby_rects.clear()
         for rect in self.map_rects:
             distance = (player_pos - vec2(rect.center)).magnitude_squared()
             if distance <= (self.surface.get_width() ** 2):
                 self.nearby_rects.append(rect)
                 self.surface.blit(self.map_tile_image, rect.move(-scroll))
-
-        for blob in self.blob_group.sprites():
-            blob_rect = blob.rect.move(-scroll)
-            self.surface.blit(blob.scaled_image, blob_rect) 
-        
-        for exit_gate in self.exit_group.sprites():
-            exit_rect = exit_gate.rect.move(-scroll)
-            self.surface.blit(exit_gate.scaled_image, exit_rect)
-
-        if self.start_game_rect and self.end_game_rect:
+        if self.start_game_rect:
             pygame.draw.rect(self.surface, (255, 0, 0), self.start_game_rect.move(-scroll))
+        if self.end_game_rect:
             pygame.draw.rect(self.surface, (255, 0, 0), self.end_game_rect.move(-scroll))
+        if self.map1_rect:
+            pygame.draw.rect(self.surface, (255, 0, 0), self.map1_rect.move(-scroll))
 
-    def get_blob_group(self):
-        return self.blob_group
-
-    def get_player_spawn_pos(self):
-        for i in range(len(self.data)):
-            for j in range(len(self.data[i])):
-                if self.data[i][j] == '2':
-                    return j * self.map_rect_width, i * self.map_rect_width + self.map_rect_width
-        return 0, 0  # Default position if player spawn position not found
+        if game.current_map == game.maps[0]:
+            exit_gate = Exit(730, 0, 'assets/sprites/door.JPG')
+            yippie = Exit(0, 0, 'assets/sprites/door.JPG')
+            self.exit_group.add(exit_gate)
+            self.exit_group.add(yippie)
+            for exit_gate in self.exit_group.sprites():
+                exit_rect = exit_gate.rect.move(-scroll)
+                self.surface.blit(exit_gate.scaled_image, exit_rect)
+        else:
+            # Clear the exit_group for other maps
+            self.exit_group.empty()
