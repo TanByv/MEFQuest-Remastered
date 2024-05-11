@@ -4,7 +4,6 @@ from pygame import Vector2 as vec2
 from .map import Map
 from .player import Player
 from .light import LightSource
-from .camera import Camera
 
 class Game:
     def __init__(self):
@@ -29,10 +28,9 @@ class Game:
         self.player = Player("assets/sprites/player.png", self.current_map.map_rect_width, self.screen)
         self.light = LightSource(self.screen, self.player.pos, (80, 0, 0), 1000)
 
-        self.camera = Camera(self.screen, self.player, self.current_map)
         self.offset = vec2(0, 0)
         self.scroll = vec2
-        self.k = 1 / 20
+        self.k = 1 / 5 # camera sway co-efficient (default: 1/20)
         
     def update(self):
         if self.current_map.start_game_enabled:
@@ -49,11 +47,10 @@ class Game:
         # self.light.pos = vec2(self.screen.get_size())
 
         self.offset += self.k * (self.player.pos - 0.5 * vec2(self.window.get_rect().center) - self.offset)
-        self.scroll = vec2(int(self.offset.x), int(self.offset.y))
+        self.scroll = vec2(int(self.offset.x), int(self.offset.y - 50)) # set camera offset here
 
         # self.light.show(rects_in_vision, self.scroll)
         self.light.show(self.current_map.nearby_rects, self.scroll)
-        self.camera.update(self.player.pos)
 
         self.current_map.draw(self.scroll, self.player.pos, self)
         self.player.move(self.current_map)
