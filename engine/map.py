@@ -137,6 +137,7 @@ class Map:
                 exit_rect = exit_gate.rect.move(-scroll)
                 self.surface.blit(exit_gate.scaled_image, exit_rect)
         elif game.current_map == game.maps[2]:
+            self.startScreen_group.empty()
             for exit_gate in self.floor0_group.sprites():
                 exit_rect = exit_gate.rect.move(-scroll)
                 self.surface.blit(exit_gate.scaled_image, exit_rect)
