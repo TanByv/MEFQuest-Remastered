@@ -50,12 +50,6 @@ class Map:
         self.start_game_rect = None
         self.end_game_rect = None
         self.map1_rect = None
-        self.floor0_rect = None
-        self.floor1_rect = None
-        self.floor2_rect = None
-        self.floor3_rect = None
-        self.floorLib_rect = None
-        self.floor5_rect = None
 
         self.exit_group = pygame.sprite.Group()
         exit_gate = Exit(730, 0, 'assets/sprites/door.JPG')
@@ -115,38 +109,7 @@ class Map:
         self.map1_enabled = False
 
     def draw(self, scroll, player_pos: vec2, game):
-        if self.path == "assets/maps/floor0.csv":
-            # Calculate the background offset based on the player's position
-            background_offset_x = (player_pos.x - self.player_pos.x) % self.background_width
-            # Draw scrolling background
-            for i in range(0, self.tiles):
-                self.surface.blit(self.background_image, (i * self.background_width - background_offset_x, 0))
-        elif self.path == "assets/maps/floor1.csv":
-            # Calculate the background offset based on the player's position
-            background_offset_x = (player_pos.x - self.player_pos.x) % self.background_width
-            # Draw scrolling background
-            for i in range(0, self.tiles):
-                self.surface.blit(self.background_image, (i * self.background_width - background_offset_x, 0))
-        elif self.path == "assets/maps/floor2.csv":
-            # Calculate the background offset based on the player's position
-            background_offset_x = (player_pos.x - self.player_pos.x) % self.background_width
-            # Draw scrolling background
-            for i in range(0, self.tiles):
-                self.surface.blit(self.background_image, (i * self.background_width - background_offset_x, 0))
-        elif self.path == "assets/maps/floor3.csv":
-            # Calculate the background offset based on the player's position
-            background_offset_x = (player_pos.x - self.player_pos.x) % self.background_width
-            # Draw scrolling background
-            for i in range(0, self.tiles):
-                self.surface.blit(self.background_image, (i * self.background_width - background_offset_x, 0))
-        elif self.path == "assets/maps/floorLib.csv":
-            # Calculate the background offset based on the player's position
-            background_offset_x = (player_pos.x - self.player_pos.x) % self.background_width
-            # Draw scrolling background
-            for i in range(0, self.tiles):
-                self.surface.blit(self.background_image, (i * self.background_width - background_offset_x, 0))
-
-        elif self.path == "assets/maps/floor5.csv":
+        if self.path == "assets/maps/map1.csv":
             # Calculate the background offset based on the player's position
             background_offset_x = (player_pos.x - self.player_pos.x) % self.background_width
             # Draw scrolling background
@@ -160,7 +123,6 @@ class Map:
             if distance <= (self.surface.get_width() ** 2):
                 self.nearby_rects.append(rect)
                 self.surface.blit(self.map_tile_image, rect.move(-scroll))
-                
         if self.start_game_rect:
             pygame.draw.rect(self.surface, (255, 0, 0), self.start_game_rect.move(-scroll))
         if self.end_game_rect:
@@ -169,30 +131,6 @@ class Map:
             pygame.draw.rect(self.surface, (255, 0, 0), self.map1_rect.move(-scroll))
 
         if game.current_map == game.maps[0]:
-            for exit_gate in self.exit_group.sprites():
-                exit_rect = exit_gate.rect.move(-scroll)
-                self.surface.blit(exit_gate.scaled_image, exit_rect)
-        if game.current_map == game.maps[2]:
-            for exit_gate in self.exit_group.sprites():
-                exit_rect = exit_gate.rect.move(-scroll)
-                self.surface.blit(exit_gate.scaled_image, exit_rect)
-        if game.current_map == game.maps[3]:
-            for exit_gate in self.exit_group.sprites():
-                exit_rect = exit_gate.rect.move(-scroll)
-                self.surface.blit(exit_gate.scaled_image, exit_rect)
-        if game.current_map == game.maps[4]:
-            for exit_gate in self.exit_group.sprites():
-                exit_rect = exit_gate.rect.move(-scroll)
-                self.surface.blit(exit_gate.scaled_image, exit_rect)
-        if game.current_map == game.maps[5]:
-            for exit_gate in self.exit_group.sprites():
-                exit_rect = exit_gate.rect.move(-scroll)
-                self.surface.blit(exit_gate.scaled_image, exit_rect)
-        if game.current_map == game.maps[6]:
-            for exit_gate in self.exit_group.sprites():
-                exit_rect = exit_gate.rect.move(-scroll)
-                self.surface.blit(exit_gate.scaled_image, exit_rect)
-        if game.current_map == game.maps[7]:
             for exit_gate in self.exit_group.sprites():
                 exit_rect = exit_gate.rect.move(-scroll)
                 self.surface.blit(exit_gate.scaled_image, exit_rect)

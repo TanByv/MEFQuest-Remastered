@@ -21,12 +21,7 @@ class Game:
         self.maps = [
             Map("assets/maps/start_screen.csv", self.screen, self.screen.get_width() / 40),
             Map("assets/maps/default_map.csv", self.screen, self.screen.get_width() / 20),
-            Map("assets/maps/floor0.csv", self.screen, self.screen.get_width() / 20),
-            Map("assets/maps/floor1.csv", self.screen, self.screen.get_width() / 20),
-            Map("assets/maps/floor2.csv", self.screen, self.screen.get_width() / 20),
-            Map("assets/maps/floor3.csv", self.screen, self.screen.get_width() / 20),
-            Map("assets/maps/floorLib.csv", self.screen, self.screen.get_width() / 20),
-            Map("assets/maps/floor5.csv", self.screen, self.screen.get_width() / 20)
+            Map("assets/maps/map1.csv", self.screen, self.screen.get_width() / 20)
         ]
         self.current_map = self.maps[0]
 
