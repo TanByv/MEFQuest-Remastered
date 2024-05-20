@@ -112,8 +112,4 @@ class Game:
                     elif x.type == "kantin":
                         self.start_mini_game("kantinci", "kantin")
                     elif x.type == "door0":
-                        self.player.pos.x = 0
-                        self.player.pos.y = 965
-                        self.player_pos = vec2(0, 965)
-                        self.pos = pygame.Vector2(0, 965) 
-
+                        self.player.rect.topleft = (20, 965)
