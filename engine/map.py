@@ -7,7 +7,7 @@ from pygame import Vector2 as vec2
 import math
 
 class Spriteee(pygame.sprite.Sprite):
-    def __init__(self, x, y, img_path, scale=0.5):
+    def __init__(self, x, y, img_path, scale=0.5, type="default"):
         pygame.sprite.Sprite.__init__(self)
         self.original_image = pygame.image.load(img_path)
         self.scaled_image = pygame.transform.scale(
@@ -20,6 +20,7 @@ class Spriteee(pygame.sprite.Sprite):
         self.rect = self.scaled_image.get_rect()
         self.rect.x = x
         self.rect.y = y
+        self.type = type
         
 class Map:
     def __init__(self, path: str, surface: pygame.surface.Surface, size: float) -> None:
@@ -53,11 +54,16 @@ class Map:
         
         #startscreen
         self.startScreen_group = pygame.sprite.Group()
-        exit_gate = Spriteee(0, -15, 'assets/sprites/door.JPG')
+        exit_gate = Spriteee(0, -15, 'assets/sprites/door.JPG', type="doorTest")
         self.startScreen_group.add(exit_gate)
 
-        #floor0
-        self.floor0_group = pygame.sprite.Group()
+        #map1
+        self.map1 = pygame.sprite.Group()
+        guard = Spriteee(100, 140, 'assets/sprites/guard.png', type="guard")
+        self.map1.add(guard)
+        #turnike = Spriteee(200, -15, 'assets/sprites/turnike.JPG', guard)
+        #kantinci = Spriteee(600, -15, 'assets/sprites/kantinci.JPG', kantin)
+        #kantinBina = Spriteee(700, -15, 'assets/sprites/kantinBina.JPG', kantin)
 
         self.map_rects: List[pygame.Rect] = []
         for i in range(len(self.data)):
@@ -138,7 +144,7 @@ class Map:
                 self.surface.blit(exit_gate.scaled_image, exit_rect)
         elif game.current_map == game.maps[2]:
             self.startScreen_group.empty()
-            for exit_gate in self.floor0_group.sprites():
+            for exit_gate in self.map1.sprites():
                 exit_rect = exit_gate.rect.move(-scroll)
                 self.surface.blit(exit_gate.scaled_image, exit_rect)
         else:

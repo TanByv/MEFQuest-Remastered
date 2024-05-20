@@ -4,11 +4,12 @@ from pygame import Vector2 as vec2
 from .map import Map
 from .player import Player
 from .light import LightSource
+from .minigame import MiniGame
 
 class Game:
     def __init__(self):
-        self.width = 1280
-        self.height = 720
+        self.width = 1600
+        self.height = 900
         self.__width = self.width // 2
         self.__height = self.height // 2
         self.game_is_running = True
@@ -47,7 +48,7 @@ class Game:
         # self.light.pos = vec2(self.screen.get_size())
 
         self.offset += self.k * (self.player.pos - 0.5 * vec2(self.window.get_rect().center) - self.offset)
-        self.scroll = vec2(int(self.offset.x), int(self.offset.y - 50)) # set camera offset here
+        self.scroll = vec2(int(self.offset.x), int(self.offset.y - 70)) # set camera offset here
 
         # self.light.show(rects_in_vision, self.scroll)
         self.light.show(self.current_map.nearby_rects, self.scroll)
@@ -69,6 +70,9 @@ class Game:
             self.update()
         pygame.quit()
         quit()
+
+    def start_mini_game(self, player_sprite, csv_filename):
+        self.mini_game = MiniGame(player_sprite, csv_filename)
 
     def handle_key_events(self):
         key = pygame.key.get_pressed()
@@ -92,10 +96,19 @@ class Game:
         if self.player.counter > self.player.walk_cooldown:
             self.player.update_animation()
             
-            # Handle jump animation
+        # Handle jump animation
         if key[pygame.K_SPACE] and self.player.standing_on_ground:
             self.player.jump()
 
         if key[pygame.K_ESCAPE] and self.current_map == self.maps[0]:
             self.game_is_running = False
+            
+        if key[pygame.K_f]:
+            for x in self.current_map.map1:
+                enemy_coll = pygame.sprite.collide_rect(self.player, x)
+                if enemy_coll:
+                    if x.type == "guard":
+                        self.start_mini_game("guard", "guardian")
+                    elif x.type == "abla":
+                        self.start_mini_game("abla", "kantin")
 

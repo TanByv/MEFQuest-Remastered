@@ -49,6 +49,7 @@ class Player:
                 self.image = self.images_right[self.index]
             elif self.direction == -1:
                 self.image = self.images_left[self.index]
+
     def draw(self, cam_pos, map: Map, screen: pygame.Surface):
         if self.size != map.map_rect_width:
             self.size = map.map_rect_width
@@ -57,6 +58,7 @@ class Player:
             self.rect.center = self.pos
             self.jump_force = 0.4 * self.size
         screen.blit(self.image, self.rect.move(-cam_pos))
+        
     def move(self, map: Map):
         self.standing_on_ground = False
         self.vel += self.acc
@@ -86,13 +88,16 @@ class Player:
                 offsetted_rect.bottom = tile.top
                 self.vel.y *= 0
                 self.standing_on_ground = True
+
         # Check for collision with exit_group
         exit_collision = pygame.sprite.spritecollideany(self, map.startScreen_group)
         if exit_collision:
             print("Collided with an exit")
             map.map1_enabled = True
+
         self.rect = offsetted_rect
         self.pos = pygame.Vector2(self.rect.center)
         self.vel.x *= 0
+        
     def jump(self):
         self.vel.y = -self.jump_force
