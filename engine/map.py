@@ -6,7 +6,7 @@ from pygame import Vector2 as vec2
 
 import math
 
-class Exit(pygame.sprite.Sprite):
+class Spriteee(pygame.sprite.Sprite):
     def __init__(self, x, y, img_path, scale=0.5):
         pygame.sprite.Sprite.__init__(self)
         self.original_image = pygame.image.load(img_path)
@@ -50,12 +50,14 @@ class Map:
         self.start_game_rect = None
         self.end_game_rect = None
         self.map1_rect = None
+        
+        #startscreen
+        self.startScreen_group = pygame.sprite.Group()
+        exit_gate = Spriteee(0, -15, 'assets/sprites/door.JPG')
+        self.startScreen_group.add(exit_gate)
 
-        self.exit_group = pygame.sprite.Group()
-        exit_gate = Exit(730, 0, 'assets/sprites/door.JPG')
-        yippie = Exit(0, 0, 'assets/sprites/door.JPG')
-        self.exit_group.add(exit_gate)
-        self.exit_group.add(yippie)
+        #floor0
+        self.floor0_group = pygame.sprite.Group()
 
         self.map_rects: List[pygame.Rect] = []
         for i in range(len(self.data)):
@@ -131,9 +133,13 @@ class Map:
             pygame.draw.rect(self.surface, (255, 0, 0), self.map1_rect.move(-scroll))
 
         if game.current_map == game.maps[0]:
-            for exit_gate in self.exit_group.sprites():
+            for exit_gate in self.startScreen_group.sprites():
+                exit_rect = exit_gate.rect.move(-scroll)
+                self.surface.blit(exit_gate.scaled_image, exit_rect)
+        elif game.current_map == game.maps[2]:
+            for exit_gate in self.floor0_group.sprites():
                 exit_rect = exit_gate.rect.move(-scroll)
                 self.surface.blit(exit_gate.scaled_image, exit_rect)
         else:
             # Clear the exit_group for other maps
-            self.exit_group.empty()
+            self.startScreen_group.empty()
