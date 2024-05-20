@@ -113,3 +113,7 @@ class Game:
                         self.start_mini_game("kantinci", "kantin")
                     elif x.type == "door0":
                         self.player.rect.topleft = (20, 965)
+                    elif x.type == "door1":
+                        self.player.rect.topleft = (-178, 2210)
+                    elif x.type == "door2":
+                        self.player.rect.topleft = (-58, 3045)
