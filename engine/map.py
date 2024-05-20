@@ -86,6 +86,9 @@ class Map:
         self.map1.add(ogrenciisleri)
         ogrenciisleribina = Spriteee(2650, 1935, 'assets/sprites/ogrenciisleribinasi.png', type="ogrenciisleri")
         self.map1.add(ogrenciisleribina)
+        #door2
+        door2 = Spriteee(4100, 2150, 'assets/sprites/door.png', type="door2")
+        self.map1.add(door2)
 
         self.map_rects: List[pygame.Rect] = []
         for i in range(len(self.data)):
