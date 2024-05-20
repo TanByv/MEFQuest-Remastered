@@ -69,6 +69,18 @@ class Map:
         #xd
         door0 = Spriteee(3400, 70, 'assets/sprites/door.png', type="door0")
         self.map1.add(door0)
+        #ilker
+        ilker = Spriteee(500, 820, 'assets/sprites/ilker.png', type="iker")
+        self.map1.add(ilker)
+        #classroom
+        classroom = Spriteee(2000, 805, 'assets/sprites/classroom.PNG', type="classroom")
+        self.map1.add(classroom)
+        #Student
+        student = Spriteee(1500, 715, 'assets/sprites/students.PNG', type="student")
+        self.map1.add(student)
+        #door1
+        door1 = Spriteee(3400, 830, 'assets/sprites/door.png', type="door1")
+        self.map1.add(door1)
 
         self.map_rects: List[pygame.Rect] = []
         for i in range(len(self.data)):
