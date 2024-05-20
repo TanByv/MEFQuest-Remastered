@@ -98,6 +98,9 @@ class Map:
         #library
         library = Spriteee(2500, 2845, 'assets/sprites/kütüphane.png', type="library")
         self.map1.add(library)
+        #brokenelevator
+        brokenelevator = Spriteee(1600, 3510, 'assets/sprites/brokenelevator.png', type="brokenelevator")
+        self.map1.add(brokenelevator)
 
 
 
