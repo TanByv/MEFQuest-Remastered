@@ -54,7 +54,7 @@ class Map:
         
         #startscreen
         self.startScreen_group = pygame.sprite.Group()
-        exit_gate = Spriteee(0, -15, 'assets/sprites/door.JPG', type="doorTest")
+        exit_gate = Spriteee(-200, 50, 'assets/sprites/door.JPG', type="doorTest")
         self.startScreen_group.add(exit_gate)
 
         #map1

@@ -144,7 +144,6 @@ class MiniGame:
             elapsed_time = current_time - self.global_time
             return 30 - elapsed_time
 
-
         def check_csv2():
             global next_message_triggered, box_messages
             if os.path.exists(self.csv_filename2):
@@ -154,15 +153,12 @@ class MiniGame:
             else:
                 pygame.quit()
 
-
-
         def drawBlackSquare(screen, x, y, width, height):
             pygame.draw.rect(screen, BLACK, (x, y, width, height))  # Kareyi siyahla doldur
 
         drawAllCharacters()
 
         while True:
-
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     pygame.quit()
@@ -220,8 +216,6 @@ class MiniGame:
                 if get_elapsed_time() < 0:
                     pygame.quit()
 
-
-
 class MessageBox:
     def __init__(self, x, y, width, height, text='', font_size=24, bg_color=BLACK, text_color=WHITE):
         self.rect = pygame.Rect(x, y, width, height)
@@ -245,7 +239,6 @@ class MessageBox:
         pygame.draw.rect(screen, BLACK, self.rect, 2)  # Kenarlık eklemek için
         screen.blit(self.rendered_text, self.text_rect)
 
-
 class Player():
     def __init__(self, x, y, height, width, sprites):
         self.img = pygame.image.load(f'assets/sprites/{sprites}.png')
@@ -260,7 +253,6 @@ class Player():
         font = pygame.font.SysFont('comicsans', 24)
         text_surface = font.render(str(self.number), True, (255, 255, 255))
         screen.blit(text_surface, (self.rect.x + 25, self.rect.y + self.rect.height + 5))
-
 
 class Button:
     def __init__(self, x, y, text=''):

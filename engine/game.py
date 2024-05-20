@@ -48,7 +48,7 @@ class Game:
         # self.light.pos = vec2(self.screen.get_size())
 
         self.offset += self.k * (self.player.pos - 0.5 * vec2(self.window.get_rect().center) - self.offset)
-        self.scroll = vec2(int(self.offset.x), int(self.offset.y - 70)) # set camera offset here
+        self.scroll = vec2(int(self.offset.x), int(self.offset.y - 75)) # set camera offset here
 
         # self.light.show(rects_in_vision, self.scroll)
         self.light.show(self.current_map.nearby_rects, self.scroll)
