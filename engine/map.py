@@ -59,11 +59,13 @@ class Map:
 
         #map1
         self.map1 = pygame.sprite.Group()
-        guard = Spriteee(100, 140, 'assets/sprites/guard.png', type="guard")
+        guard = Spriteee(830, 30, 'assets/sprites/guard.png', type="door0")
         self.map1.add(guard)
         #turnike = Spriteee(200, -15, 'assets/sprites/turnike.JPG', guard)
-        #kantinci = Spriteee(600, -15, 'assets/sprites/kantinci.JPG', kantin)
-        #kantinBina = Spriteee(700, -15, 'assets/sprites/kantinBina.JPG', kantin)
+        kantin = Spriteee(1500, -150, 'assets/sprites/kantin.png', type="kantin")
+        self.map1.add(kantin)
+        kantinci = Spriteee(1300, 10, 'assets/sprites/kantinci.png', type="kantin")
+        self.map1.add(kantinci)
 
         self.map_rects: List[pygame.Rect] = []
         for i in range(len(self.data)):

@@ -56,7 +56,7 @@ class Player:
             self.image = pygame.transform.scale(self.image, (40, 80))
             self.rect = self.image.get_rect()
             self.rect.center = self.pos
-            self.jump_force = 0.4 * self.size
+            self.jump_force = 0.25 * self.size #jump heigt
         screen.blit(self.image, self.rect.move(-cam_pos))
         
     def move(self, map: Map):
@@ -98,6 +98,6 @@ class Player:
         self.rect = offsetted_rect
         self.pos = pygame.Vector2(self.rect.center)
         self.vel.x *= 0
-        
+
     def jump(self):
         self.vel.y = -self.jump_force
