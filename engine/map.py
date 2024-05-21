@@ -96,7 +96,7 @@ class Map:
         book = Spriteee(100, 3532, 'assets/sprites/bok.png', type="book")
         self.map1.add(book)
         #library
-        library = Spriteee(2500, 2845, 'assets/sprites/kütüphane.png', type="library")
+        library = Spriteee(2250, 2695, 'assets/sprites/kütüphane.png', type="ilber")
         self.map1.add(library)
         #brokenelevator
         brokenelevator = Spriteee(1600, 3510, 'assets/sprites/brokenelevator.png', type="brokenelevator")
