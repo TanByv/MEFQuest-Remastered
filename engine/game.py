@@ -76,15 +76,6 @@ class Game:
 
         # Start minigame
         self.mini_game = MiniGame(player_sprite, csv_filename)
-        
-    def change_background(self, background_image_path):
-        self.current_map.background_image = pygame.image.load(background_image_path).convert_alpha()
-        self.current_map.background_width = self.current_map.background_image.get_rect().width
-        self.current_map.background_height = self.current_map.background_image.get_rect().height
-        self.current_map.background_image = pygame.transform.scale(
-            self.current_map.background_image,
-            (self.current_map.background_width, self.screen.get_height())
-        )
 
         # Restore main game dimensions after minigame ends
         self.window = pygame.display.set_mode(current_dimensions)
@@ -130,12 +121,8 @@ class Game:
                         self.result = self.start_mini_game("ilker", "ilkay")
                     elif x.type == "door0":
                         self.player.rect.topleft = (20, 965)
-                        self.change_background("assets/sprites/odun.png")
-
                     elif x.type == "door1":
                         self.player.rect.topleft = (-178, 2210)
-                        self.change_background("assets/sprites/glass.png")
-
                     elif x.type == "door2":
                         self.player.rect.topleft = (-58, 3045)
 
