@@ -5,7 +5,7 @@ import pygame
 import random
 
 # Constants
-WIDTH, HEIGHT = 900, 700
+WIDTH, HEIGHT = 1600, 900
 WHITE, BLACK, GRAY, RED = (255, 255, 255), (0, 0, 0), (100, 100, 100), (255, 0, 0)
 KEYS_N = ["Q", "W", "E", "A", "S", "D"]
 
@@ -32,6 +32,7 @@ class MiniGame:
         self.box_counter = None
         self.box_messages = None
         self.current_index = 0
+        self.check = False
 
         self.init_game()
 
@@ -49,14 +50,14 @@ class MiniGame:
         pygame.init()
         screen = pygame.display.set_mode((self.WIDTH, self.HEIGHT))
         pygame.display.set_caption("Mini Game")
-        random.shuffle(self.KEYS_N)  # shuffle yaparak arrayi karıştırır
+        random.shuffle(KEYS_N)  # shuffle yaparak arrayi karıştırır
         self.buttons = [Button(150 + i * 100, 500, self.KEYS_N[i]) for i in range(len(self.KEYS_N))]
         self.player1 = Player(650, 170, 150, 200, self.player_sprite)
         self.player2 = Player(100, 70, 75, 100, "guy1")
-        self.box1 = MessageBox(200, 50, 600, 150, "", font_size=15)
-        self.box2 = MessageBox(60, 230, 600, 150, "", font_size=15)
+        self.box1 = MessageBox(200, 50, 600, 150, "", font_size=20)
+        self.box2 = MessageBox(60, 230, 600, 150, "", font_size=20)
         self.box_guide = MessageBox(150, 600, 600, 50, "Press n to continue!")
-        self.box_counter = MessageBox(335, 400, 200, 50, "5", font_size=50)
+        self.box_counter = MessageBox(335, 400, 200, 50, "5", font_size=40)
         self.box_messages = self.read_messages_from_csv(self.csv_filename)
         self.box_timer = MessageBox(-10, 580, 200, 50, "", font_size=25)
         global next_message_triggered, box_messages, timer, global_time
@@ -95,7 +96,7 @@ class MiniGame:
                     self.box_guide.set_text("Press Space for fight")
                     self.box_guide.drawChatB(screen)
                 elif self.player1.number == 0:
-                    pygame.quit()
+                    self.check = True
 
         def true_set():
             resetAllButtons()
@@ -131,7 +132,7 @@ class MiniGame:
                 self.box_counter.drawChatB(screen)
                 check_csv2()
             elif self.player2.number <= 0:
-                pygame.quit()
+                self.check = True
 
         def set_global_time():
             global global_time, timer
@@ -151,7 +152,7 @@ class MiniGame:
                 self.box_guide.set_text("Press n to continue!")
                 self.box_messages = self.read_messages_from_csv(self.csv_filename2)
             else:
-                pygame.quit()
+                self.check = True
 
         def drawBlackSquare(screen, x, y, width, height):
             pygame.draw.rect(screen, BLACK, (x, y, width, height))  # Kareyi siyahla doldur
@@ -213,8 +214,8 @@ class MiniGame:
                 self.box_timer.set_text(str(int(get_elapsed_time())))
                 self.box_timer.drawChatB(screen)
 
-                if get_elapsed_time() < 0:
-                    pygame.quit()
+                if get_elapsed_time() < 0 or self.check:
+                    return
 
 class MessageBox:
     def __init__(self, x, y, width, height, text='', font_size=24, bg_color=BLACK, text_color=WHITE):
@@ -226,18 +227,49 @@ class MessageBox:
 
     def set_text(self, text):
         self.text = text
-        self.rendered_text = self.font.render(self.text, True, self.text_color)
-        self.text_rect = self.rendered_text.get_rect(center=self.rect.center)
+        self.rendered_text, self.text_rects = self.render_multiline_text(text)
+
+    def render_multiline_text(self, text):
+        words = text.split(' ')
+        lines = []
+        current_line = ""
+
+        for word in words:
+            test_line = current_line + word + " "
+            if self.font.size(test_line)[0] <= self.rect.width:
+                current_line = test_line
+            else:
+                lines.append(current_line)
+                current_line = word + " "
+        lines.append(current_line)
+
+        line_height = self.font.get_linesize()
+        total_height = len(lines) * line_height
+        rendered_surface = pygame.Surface((self.rect.width, total_height), pygame.SRCALPHA)
+        rendered_surface.fill(self.bg_color)
+
+        text_rects = []
+        for i, line in enumerate(lines):
+            rendered_line = self.font.render(line, True, self.text_color)
+            line_width = self.font.size(line)[0]
+            line_rect = rendered_line.get_rect(center=(self.rect.width // 2, i * line_height + line_height // 2))
+            rendered_surface.blit(rendered_line, (self.rect.width // 2 - line_width // 2, i * line_height))
+            text_rects.append(line_rect)
+
+        return rendered_surface, text_rects
 
     def drawChatW(self, screen):
         pygame.draw.rect(screen, self.bg_color, self.rect)
         pygame.draw.rect(screen, WHITE, self.rect, 2)
-        screen.blit(self.rendered_text, self.text_rect)
+        centered_y = (self.rect.height - self.rendered_text.get_height()) // 2
+        screen.blit(self.rendered_text, (self.rect.x, self.rect.y + centered_y))
 
     def drawChatB(self, screen):
         pygame.draw.rect(screen, self.bg_color, self.rect)
-        pygame.draw.rect(screen, BLACK, self.rect, 2)  # Kenarlık eklemek için
-        screen.blit(self.rendered_text, self.text_rect)
+        pygame.draw.rect(screen, BLACK, self.rect, 2)
+        centered_y = (self.rect.height - self.rendered_text.get_height()) // 2
+        screen.blit(self.rendered_text, (self.rect.x, self.rect.y + centered_y))
+
 
 class Player():
     def __init__(self, x, y, height, width, sprites):
