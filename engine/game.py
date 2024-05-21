@@ -5,7 +5,7 @@ from .map import Map
 from .player import Player
 from .light import LightSource
 from .minigame import MiniGame
-
+from .elevator_minigame import run_game
 
 class Game:
     def __init__(self):
@@ -80,6 +80,13 @@ class Game:
         # Restore main game dimensions after minigame ends
         self.window = pygame.display.set_mode(current_dimensions)
 
+    def run_mini_game(self):
+
+        current_dimensions = self.window.get_size()
+        score = run_game()
+        self.window = pygame.display.set_mode(current_dimensions)
+        return score
+
     def handle_key_events(self):
         key = pygame.key.get_pressed()
 
@@ -119,6 +126,17 @@ class Game:
                         self.result = self.start_mini_game("kantinci", "kantin")
                     elif x.type == "ilker":
                         self.result = self.start_mini_game("ilker", "ilkay")
+                    elif x.type == "student":
+                        self.result = self.start_mini_game("students", "prepstudent")
+                    elif x.type == "ogrenciisleri":
+                        self.result = self.start_mini_game("ogrenciisleri", "ogrenciisleri")
+                    elif x.type == "ilber":
+                        self.result = self.start_mini_game("kutuphaneci", "kutuphane")
+                    elif x.type == "brokenelevator":
+                        if self.run_mini_game():
+                            print("geçtin")
+                        else:
+                            print("gittin")
                     elif x.type == "door0":
                         self.player.rect.topleft = (20, 965)
                     elif x.type == "door1":
