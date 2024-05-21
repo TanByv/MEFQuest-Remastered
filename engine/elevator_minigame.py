@@ -37,7 +37,7 @@ class ElevatorMiniGame:
         ]
 
         # Resmi yükle
-        image_path = '/Users/enes/Downloads/game/img/guy1.png'
+        image_path = 'assets/sprites/guy1.png'
         self.image = pygame.image.load(image_path)
         self.image_rect = self.image.get_rect()
         self.image_rect.bottomleft = (90, self.height)
