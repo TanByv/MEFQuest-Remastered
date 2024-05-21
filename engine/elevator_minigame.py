@@ -6,6 +6,11 @@ class ElevatorMiniGame:
     def __init__(self):
         # Pygame başlatma
         pygame.init()
+        pygame.mixer.init()
+
+        self.win_sound = pygame.mixer.Sound('assets/sounds/winsound.mp3')
+        self.fail_sound = pygame.mixer.Sound('assets/sounds/failsound.mp3')
+
 
         # Ekran ayarları
         self.width, self.height = 1200, 600
@@ -32,7 +37,7 @@ class ElevatorMiniGame:
         ]
 
         # Resmi yükle
-        image_path = 'assets/sprites/guy1.png'
+        image_path = '/Users/enes/Downloads/game/img/guy1.png'
         self.image = pygame.image.load(image_path)
         self.image_rect = self.image.get_rect()
         self.image_rect.bottomleft = (90, self.height)
@@ -69,19 +74,16 @@ class ElevatorMiniGame:
                 if event.type == pygame.MOUSEBUTTONDOWN:
                     mouse_pos = event.pos
                     if start_button.collidepoint(mouse_pos):
-                        return  # Başlangıç ekranından çık ve oyunu başlat
+                        return
 
     def game_loop(self):
         score = 0
         for question, correct_answer in self.questions:
-            # Soruyu ekrana yazdır
             self.screen.fill(self.BLACK)
             lines = textwrap.wrap(question, width=70)  # Metni 60 karakter genişliğinde kır
 
-            # Metin yüksekliği hesapla
             total_height = sum(self.font.size(line)[1] + 5 for line in lines)
 
-            # Metni dikey olarak ortalamak için başlangıç yüksekliğini hesapla
             y_offset = (self.height - total_height) // 4 + 60
 
             for line in lines:
@@ -123,10 +125,18 @@ class ElevatorMiniGame:
                             answered = True
                             if correct_answer == True:
                                 score += 1
+                                pygame.mixer.Sound.play(self.win_sound)
+                            else:
+                                pygame.mixer.Sound.play(self.fail_sound)
+
                         elif false_button.collidepoint(mouse_pos):
                             answered = True
                             if correct_answer == False:
                                 score += 1
+                                pygame.mixer.Sound.play(self.win_sound)
+                            else:
+                                pygame.mixer.Sound.play(self.fail_sound)
+
 
         # Skoru göster
         self.screen.fill(self.BLACK)
@@ -139,14 +149,12 @@ class ElevatorMiniGame:
         else:
             congrats_text = self.font.render(f'--No--', True, self.WHITE)
 
-        # Tebrik metnini ortala
         congrats_x = (self.width - congrats_text.get_width()) // 2
         self.screen.blit(congrats_text, (congrats_x, 200))
         self.screen.blit(self.image, self.image_rect)  # Skor ekranında da resmi göster
         pygame.display.flip()
         pygame.time.wait(1000)
 
-        # Skoru return et
         return score
 
 def run_game():
