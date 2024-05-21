@@ -70,7 +70,7 @@ class Map:
         door0 = Spriteee(3400, 70, 'assets/sprites/door.png', type="door0")
         self.map1.add(door0)
         #ilker
-        ilker = Spriteee(500, 820, 'assets/sprites/ilker.png', type="iker")
+        ilker = Spriteee(500, 820, 'assets/sprites/ilker.png', type="ilker")
         self.map1.add(ilker)
         #classroom
         classroom = Spriteee(2000, 805, 'assets/sprites/classroom.PNG', type="classroom")
