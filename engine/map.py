@@ -104,7 +104,15 @@ class Map:
         #door3
         door3 = Spriteee(3400, 2920, 'assets/sprites/door.png', type="door3")
         self.map1.add(door3)
-        
+        #erhan
+        erhan = Spriteee(514, 4365, 'assets/sprites/erhan.png', type="erhan")
+        self.map1.add(erhan)
+        #rektor
+        rektor = Spriteee(2000, 4370, 'assets/sprites/rektor.png', type="rektor")
+        self.map1.add(rektor)
+        #hapis
+        hapis = Spriteee(2500, 4352, 'assets/sprites/hapis.png', type="hapis")
+        self.map1.add(hapis)
         
         self.map_rects: List[pygame.Rect] = []
         for i in range(len(self.data)):
