@@ -143,16 +143,20 @@ class Game:
                         self.result = self.start_mini_game("kutuphaneci", "kutuphane")
                     elif x.type == "brokenelevator":
                         if self.run_mini_game():
-                            print("geçtin")
+                            self.player.rect.topleft = (-196, 4500)
+                            self.change_background("assets/sprites/glass.png")
                         else:
-                            print("gittin")
+                            self.player.rect.topleft = (-160, 3800)
                     elif x.type == "door0":
                         self.player.rect.topleft = (20, 965)
                     elif x.type == "door1":
                         self.player.rect.topleft = (-178, 2210)
-                        self.change_background("assets/sprites/glass.png")
                     elif x.type == "door2":
                         self.player.rect.topleft = (-58, 3045)
+                        self.change_background("assets/sprites/ahsap.png")
+                    elif x.type == "door3":
+                        self.player.rect.topleft = (-160, 3800)
+
 
                 if self.result:
                     pass
