@@ -101,9 +101,11 @@ class Map:
         #brokenelevator
         brokenelevator = Spriteee(1600, 3510, 'assets/sprites/brokenelevator.png', type="brokenelevator")
         self.map1.add(brokenelevator)
-
-
-
+        #door3
+        door3 = Spriteee(3400, 2920, 'assets/sprites/door.png', type="door3")
+        self.map1.add(door3)
+        
+        
         self.map_rects: List[pygame.Rect] = []
         for i in range(len(self.data)):
             for j in range(len(self.data[i])):
