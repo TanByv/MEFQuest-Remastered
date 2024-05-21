@@ -36,6 +36,7 @@ class MiniGame:
 
         self.init_game()
 
+
     def read_messages_from_csv(self, csv_filename):
         messages = []
         with open(csv_filename, newline='') as csvfile:
@@ -48,11 +49,18 @@ class MiniGame:
 
     def init_game(self):
         pygame.init()
+        pygame.mixer.init()
+
+        self.key_sound = pygame.mixer.Sound('assets/sounds/keysound.mp3')
+        self.win_sound = pygame.mixer.Sound('assets/sounds/winsound.mp3')
+        self.fail_sound = pygame.mixer.Sound('assets/sounds/failsound.mp3')
+
+
         screen = pygame.display.set_mode((self.WIDTH, self.HEIGHT))
         pygame.display.set_caption("Mini Game")
         random.shuffle(KEYS_N)  # shuffle yaparak arrayi karıştırır
         self.buttons = [Button(150 + i * 100, 500, self.KEYS_N[i]) for i in range(len(self.KEYS_N))]
-        self.player1 = Player(650, 170, 150, 200, self.player_sprite)
+        self.player1 = Player(680, 220, 180, 200, self.player_sprite)
         self.player2 = Player(100, 70, 75, 100, "guy1")
         self.box1 = MessageBox(200, 50, 600, 150, "", font_size=20)
         self.box2 = MessageBox(60, 230, 600, 150, "", font_size=20)
@@ -166,6 +174,7 @@ class MiniGame:
                     return
 
                 elif event.type == pygame.KEYDOWN:
+                    pygame.mixer.Sound.play(self.key_sound)
                     if self.next_message_triggered:
                         if event.key == pygame.K_SPACE:
                             start_fight()
@@ -180,6 +189,7 @@ class MiniGame:
                                 self.current_index += 1
 
                                 if self.current_index == 6:
+                                    pygame.mixer.Sound.play(self.win_sound)  # Play the win sound
                                     self.player1.number -= 40 #random_number()
                                     if self.player1.number < 0:
                                         self.player1.number = 0
@@ -189,6 +199,7 @@ class MiniGame:
                                     check_players_health()
 
                             elif pygame.key.name(event.key).upper() != KEYS_N[self.current_index]:
+                                pygame.mixer.Sound.play(self.fail_sound)  # Play the win sound
                                 self.player2.number -= (random_number() // 10) * 3
                                 if self.player2.number < 0:
                                     self.player2.number = 0
