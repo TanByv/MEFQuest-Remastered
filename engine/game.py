@@ -15,7 +15,6 @@ class Game:
         self.__height = self.height // 2
         self.game_is_running = True
         self.FPS = 60
-        self.result = None
 
         self.window = pygame.display.set_mode((self.width, self.height))
         self.screen = pygame.Surface((self.__width, self.__height))
@@ -70,15 +69,18 @@ class Game:
         pygame.quit()
         quit()
 
-    def start_mini_game(self, player_sprite, csv_filename):
+    def start_mini_game(self, player_sprite, csv_filename, given_damage, taken_damage, set_time):
         # Save current dimensions
         current_dimensions = self.window.get_size()
 
-        # Start minigame
-        self.mini_game = MiniGame(player_sprite, csv_filename)
+        # Initialize and run the MiniGame, capturing the result
+        mini_game = MiniGame(player_sprite, csv_filename, given_damage, taken_damage, set_time)
 
         # Restore main game dimensions after minigame ends
         self.window = pygame.display.set_mode(current_dimensions)
+
+        return mini_game.result()
+        
         
     def change_background(self, background_image_path):
         self.current_map.background_image = pygame.image.load(background_image_path).convert_alpha()
@@ -130,17 +132,21 @@ class Game:
                 enemy_coll = pygame.sprite.collide_rect(self.player, x)
                 if enemy_coll:
                     if x.type == "guard":
-                        self.result = self.start_mini_game("guard", "guardian")
+                        self.result = self.start_mini_game("guard", "guardian", 20, 15, 20)
                     elif x.type == "kantin":
-                        self.result = self.start_mini_game("kantinci", "kantin")
+                        self.result = self.start_mini_game("kantinci", "kantin", 20, 15, 20)
                     elif x.type == "ilker":
-                        self.result = self.start_mini_game("ilker", "ilkay")
+                        self.result = self.start_mini_game("ilker", "ilkay", 20, 15, 20)
                     elif x.type == "student":
-                        self.result = self.start_mini_game("students", "prepstudent")
+                        self.result = self.start_mini_game("students", "prepstudent", 20, 15, 20)
                     elif x.type == "ogrenciisleri":
-                        self.result = self.start_mini_game("ogrenciisleri", "ogrenciisleri")
+                        self.result = self.start_mini_game("ogrenciisleri", "ogrenciisleri", 20, 15, 20)
                     elif x.type == "ilber":
-                        self.result = self.start_mini_game("kutuphaneci", "kutuphane")
+                        self.result = self.start_mini_game("kutuphaneci", "kutuphane", 20, 15, 20)
+                    elif x.type == "erhan":
+                        self.result = self.start_mini_game("erhan", "erkut", 20, 15, 20)
+                    elif x.type == "rektor":
+                        self.result = self.start_mini_game("rektor", "rektor", 20, 15, 20)
                     elif x.type == "brokenelevator":
                         if self.run_mini_game():
                             self.player.rect.topleft = (-196, 4500)
@@ -157,8 +163,4 @@ class Game:
                     elif x.type == "door3":
                         self.player.rect.topleft = (-160, 3800)
 
-
-                if self.result:
-                    pass
-                else:
-                    pass
+                    print(self.result)
