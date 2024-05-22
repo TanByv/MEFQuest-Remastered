@@ -11,12 +11,15 @@ KEYS_N = ["Q", "W", "E", "A", "S", "D"]
 
 
 class MiniGame:
-    def __init__(self, player_sprite, csv_name):
+    def __init__(self, player_sprite, csv_name, given_damage, taken_damamge, set_time):
         # Constants
         self.WIDTH, self.HEIGHT = 900, 700
         self.WHITE, self.BLACK, self.GRAY, self.RED = (255, 255, 255), (0, 0, 0), (100, 100, 100), (255, 0, 0)
         self.KEYS_N = ["Q", "W", "E", "A", "S", "D"]
 
+        self.taken_damage = taken_damamge
+        self.set_time = set_time
+        self.given_damage = given_damage
         self.player_sprite = player_sprite
         self.csv_filename = f"assets/dialog/{csv_name}.csv"
         self.csv_filename2 = f"assets/dialog/{csv_name}2.csv"
@@ -32,9 +35,9 @@ class MiniGame:
         self.box_counter = None
         self.box_messages = None
         self.current_index = 0
-        self.check = False
-
+        self.check = None
         self.init_game()
+
 
 
     def read_messages_from_csv(self, csv_filename):
@@ -42,8 +45,8 @@ class MiniGame:
         with open(csv_filename, newline='') as csvfile:
             reader = csv.reader(csvfile)
             for row in reader:
-                if row:  # Satır boş değilse
-                    message = ' '.join(row)  # CSV'deki sütunları birleştirerek bir metin oluştur
+                if row:
+                    message = ' '.join(row)
                     messages.append(message)
         return messages
 
@@ -80,12 +83,12 @@ class MiniGame:
             self.box_counter.drawChatB(screen)
             n=0
             for button in self.buttons:
-                button.text = KEYS_N[n]  # Yeni metni ayarla
+                button.text = KEYS_N[n]
                 button.drawButton(screen)
                 n += 1
 
         def resetAllButtons():
-            random.shuffle(KEYS_N)  # shuffle yaparak arrayi karıştırır
+            random.shuffle(KEYS_N)
             for button in self.buttons:
                 button.release()
 
@@ -93,10 +96,10 @@ class MiniGame:
             global next_message_triggered
             if self.box_messages:
                 if self.boxInd[0] == 0:
-                    self.box1.set_text(self.box_messages.pop(0))  # İlk mesajı alıp kutuya yaz
+                    self.box1.set_text(self.box_messages.pop(0))
                     self.boxInd[0] = 1
                 elif self.boxInd[0] == 1:
-                    self.box2.set_text(self.box_messages.pop(0))  # İlk mesajı alıp kutuya yaz
+                    self.box2.set_text(self.box_messages.pop(0))
                     self.boxInd[0] = 0
             else:
                 self.next_message_triggered = True
@@ -104,22 +107,21 @@ class MiniGame:
                     self.box_guide.set_text("Press Space for fight")
                     self.box_guide.drawChatB(screen)
                 elif self.player1.number == 0:
-                    self.check = True
+                    self.check = 1
 
         def true_set():
             resetAllButtons()
             drawAllButtons()
 
         def drawAllCharacters():
-            screen.fill(BLACK)  # Ekranı siyahla doldurarak eski değerleri temizle
+            screen.fill(BLACK)
             self.player1.drawChar(screen)
             self.player2.drawChar(screen)
             pygame.display.flip()
 
-        def random_number():
-            return random.randint(10, 25)
-
         def start_fight():
+            if self.player_sprite == "rektor":
+                self.player1.number = 99999
             i = 3
             while i > 0:
                 self.box_counter.set_text(str(i))
@@ -132,6 +134,7 @@ class MiniGame:
             self.box_counter.set_text("Fight!")
             self.box_guide.set_text("Print the numbers in the correct order")
             self.box_counter.drawChatB(screen)
+            drawAllCharacters()
 
         def check_players_health():
             if self.player1.number <= 0:
@@ -140,7 +143,7 @@ class MiniGame:
                 self.box_counter.drawChatB(screen)
                 check_csv2()
             elif self.player2.number <= 0:
-                self.check = True
+                self.check = 0
 
         def set_global_time():
             global global_time, timer
@@ -151,7 +154,7 @@ class MiniGame:
             global global_time
             current_time = time.time()
             elapsed_time = current_time - self.global_time
-            return 30 - elapsed_time
+            return self.set_time - elapsed_time
 
         def check_csv2():
             global next_message_triggered, box_messages
@@ -160,10 +163,10 @@ class MiniGame:
                 self.box_guide.set_text("Press n to continue!")
                 self.box_messages = self.read_messages_from_csv(self.csv_filename2)
             else:
-                self.check = True
+                self.check = 1
 
         def drawBlackSquare(screen, x, y, width, height):
-            pygame.draw.rect(screen, BLACK, (x, y, width, height))  # Kareyi siyahla doldur
+            pygame.draw.rect(screen, BLACK, (x, y, width, height))
 
         drawAllCharacters()
 
@@ -189,23 +192,23 @@ class MiniGame:
                                 self.current_index += 1
 
                                 if self.current_index == 6:
-                                    pygame.mixer.Sound.play(self.win_sound)  # Play the win sound
-                                    self.player1.number -= 40 #random_number()
+                                    pygame.mixer.Sound.play(self.win_sound)
+                                    self.player1.number -=  self.given_damage
                                     if self.player1.number < 0:
                                         self.player1.number = 0
-                                    drawAllCharacters()  # Karakterleri yeniden çiz
+                                    drawAllCharacters()
                                     true_set()
                                     self.current_index = 0
                                     check_players_health()
 
                             elif pygame.key.name(event.key).upper() != KEYS_N[self.current_index]:
-                                pygame.mixer.Sound.play(self.fail_sound)  # Play the win sound
-                                self.player2.number -= (random_number() // 10) * 3
+                                pygame.mixer.Sound.play(self.fail_sound)
+                                self.player2.number -= self.taken_damage
                                 if self.player2.number < 0:
                                     self.player2.number = 0
                                     check_players_health()
 
-                                drawAllCharacters()  # Karakterleri yeniden çiz
+                                drawAllCharacters()
                                 resetAllButtons()
                                 drawAllButtons()
                                 self.current_index = 0
@@ -225,8 +228,15 @@ class MiniGame:
                 self.box_timer.set_text(str(int(get_elapsed_time())))
                 self.box_timer.drawChatB(screen)
 
-                if get_elapsed_time() < 0 or self.check:
-                    return
+
+                if get_elapsed_time() < 0 or self.check == 0:
+                    self.check = 0
+                    return 0
+                elif self.check == 1:
+                    return 1
+
+    def result(self):
+        return self.check
 
 class MessageBox:
     def __init__(self, x, y, width, height, text='', font_size=24, bg_color=BLACK, text_color=WHITE):
@@ -289,7 +299,7 @@ class Player():
         self.rect = self.image.get_rect()
         self.rect.x = x
         self.rect.y = y
-        self.number = 100  # sonradan parametre olarak ekleyebilirsin
+        self.number = 100
 
     def drawChar(self, screen):
         screen.blit(self.image, self.rect)
