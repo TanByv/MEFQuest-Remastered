@@ -141,20 +141,52 @@ class Game:
                 if enemy_coll:
                     if x.type == "guard":
                         self.result = self.start_mini_game("guard", "guardian", 20, 15, 20)
+                        if(self.result):
+                                self.player.rect.topleft = (-160, 3800)
+                        else:
+                                self.player.rect.topleft = (14, 210)                           
                     elif x.type == "kantin":
                         self.result = self.start_mini_game("kantinci", "kantin", 20, 15, 20)
+                        if(self.result):
+                                self.player.rect.topleft = (-160, 3800)
+                        else:
+                                self.player.rect.topleft = (14, 210)                           
                     elif x.type == "ilker":
                         self.result = self.start_mini_game("ilker", "ilkay", 20, 15, 20)
+                        if(self.result):
+                                self.player.rect.topleft = (-160, 3800)
+                        else:
+                                self.player.rect.topleft = (20, 965)
                     elif x.type == "student":
                         self.result = self.start_mini_game("students", "prepstudent", 20, 15, 20)
+                        if(self.result):
+                                self.player.rect.topleft = (-160, 3800)
+                        else:
+                                self.player.rect.topleft = (20, 965)
                     elif x.type == "ogrenciisleri":
                         self.result = self.start_mini_game("ogrenciisleri", "ogrenciisleri", 20, 15, 20)
+                        if(self.result):
+                                self.player.rect.topleft = (-160, 3800)
+                        else:
+                                self.player.rect.topleft = (-178, 2210)
                     elif x.type == "ilber":
                         self.result = self.start_mini_game("kutuphaneci", "kutuphane", 20, 15, 20)
+                        if(self.result):
+                                self.player.rect.topleft = (-160, 3800)
+                        else:
+                                self.player.rect.topleft = (-58, 3045)
                     elif x.type == "erhan":
                         self.result = self.start_mini_game("erhan", "erkut", 20, 15, 20)
+                        if(self.result):
+                                self.player.rect.topleft = (-160, 3800)
+                        else:
+                                self.player.rect.topleft = (-196, 4500)
                     elif x.type == "rektor":
                         self.result = self.start_mini_game("rektor", "rektor", 20, 15, 20)
+                        if(self.result):
+                                self.player.rect.topleft = (-160, 3800)
+                        else:
+                                self.player.rect.topleft = (14, 210)
                     elif x.type == "brokenelevator":
                         if self.run_mini_game():
                             self.player.rect.topleft = (-196, 4500)
