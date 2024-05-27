@@ -56,7 +56,6 @@ class Map:
         self.startScreen_group = pygame.sprite.Group()
         exit_gate = Spriteee(-200, 50, 'assets/sprites/door.JPG', type="doorTest")
         self.startScreen_group.add(exit_gate)
-
         #map1
         self.map1 = pygame.sprite.Group()
         guard = Spriteee(830, 30, 'assets/sprites/guard.png', type="guard")
@@ -190,7 +189,8 @@ class Map:
         if self.map1_rect:
             pygame.draw.rect(self.surface, (255, 0, 0), self.map1_rect.move(-scroll))
 
-        if game.current_map == game.maps[0]:
+        if game.current_map == game.maps[1]:
+            self.map1.empty()
             for exit_gate in self.startScreen_group.sprites():
                 exit_rect = exit_gate.rect.move(-scroll)
                 self.surface.blit(exit_gate.scaled_image, exit_rect)
@@ -202,3 +202,4 @@ class Map:
         else:
             # Clear the exit_group for other maps
             self.startScreen_group.empty()
+            self.map1.empty()
