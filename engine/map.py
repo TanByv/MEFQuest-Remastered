@@ -95,6 +95,9 @@ class Map:
         #book
         book = Spriteee(100, 3532, 'assets/sprites/bok.png', type="book")
         self.map1.add(book)
+        #koridor
+        koridor = Spriteee(300, 2700, 'assets/sprites/koridor.png', type="koridor")
+        self.map1.add(koridor)
         #library
         library = Spriteee(2250, 2695, 'assets/sprites/kütüphane.png', type="ilber")
         self.map1.add(library)
@@ -108,10 +111,10 @@ class Map:
         erhan = Spriteee(514, 4365, 'assets/sprites/erhan.png', type="erhan")
         self.map1.add(erhan)
         #rektor
-        rektor = Spriteee(2000, 4370, 'assets/sprites/rektor.png', type="rektor")
+        rektor = Spriteee(2000, 4372, 'assets/sprites/rektor.png', type="rektor")
         self.map1.add(rektor)
         #hapis
-        hapis = Spriteee(2500, 4352, 'assets/sprites/hapis.png', type="hapis")
+        hapis = Spriteee(2250, 4350, 'assets/sprites/hapis.png', type="hapis")
         self.map1.add(hapis)
         
         self.map_rects: List[pygame.Rect] = []
