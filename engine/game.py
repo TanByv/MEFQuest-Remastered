@@ -45,6 +45,10 @@ class Game:
             self.current_map = self.maps[1]
         if self.current_map.map1_enabled:
             self.current_map = self.maps[2]
+            xdtest = True
+            while(xdtest):
+                self.player.rect.topleft = (14, 210)  
+                xdtest = False
         fps_caption = f"FPS: {int(self.fps.get_fps())}"
         player_pos_caption = f"Player Pos: {int(self.player.pos.x)}, {int(self.player.pos.y)}"
         pygame.display.set_caption(f"{fps_caption} | {player_pos_caption}")
