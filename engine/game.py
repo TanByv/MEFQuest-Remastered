@@ -163,4 +163,4 @@ class Game:
                     elif x.type == "door3":
                         self.player.rect.topleft = (-160, 3800)
 
-                    print(self.result)
+                    #print(self.result)
