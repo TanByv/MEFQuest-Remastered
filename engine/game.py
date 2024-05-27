@@ -6,6 +6,7 @@ from .player import Player
 from .light import LightSource
 from .minigame import MiniGame
 from .elevator_minigame import run_game
+from pygame import mixer
 
 class Game:
     def __init__(self):
@@ -33,6 +34,11 @@ class Game:
         self.offset = vec2(0, 0)
         self.scroll = vec2
         self.k = 1 / 5  # camera sway co-efficient (default: 1/20)
+        
+        pygame.mixer.init()
+        self.music = pygame.mixer.music.load("assets/sounds/music.mp3")
+        pygame.mixer.music.set_volume(0.5)  # Set volume to 50%
+
 
     def update(self):
         if self.current_map.start_game_enabled:
@@ -60,6 +66,8 @@ class Game:
         self.fps.tick(self.FPS)
 
     def run(self):
+        pygame.mixer.music.play(-1) 
+
         while self.game_is_running and not self.current_map.end_game_enabled:
             self.handle_key_events()
             for event in pygame.event.get():
