@@ -25,6 +25,7 @@ class MiniGame:
         self.csv_filename2 = f"assets/dialog/{csv_name}2.csv"
 
         self.next_message_triggered = False
+        self.space_pressed = True
 
         self.buttons = []
         self.player1 = None
@@ -179,7 +180,8 @@ class MiniGame:
                 elif event.type == pygame.KEYDOWN:
                     pygame.mixer.Sound.play(self.key_sound)
                     if self.next_message_triggered:
-                        if event.key == pygame.K_SPACE:
+                        if event.key == pygame.K_SPACE and self.space_pressed == True:
+                            self.space_pressed = False
                             start_fight()
                             drawAllButtons()
                             set_global_time()
