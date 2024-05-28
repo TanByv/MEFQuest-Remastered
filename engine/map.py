@@ -115,6 +115,9 @@ class Map:
         #hapis
         hapis = Spriteee(2250, 4350, 'assets/sprites/hapis.png', type="hapis")
         self.map1.add(hapis)
+        #savedYassine
+        savedYassine = Spriteee(90, 5110, 'assets/sprites/savedYassine.png', type="savedYassine")
+        self.map1.add(savedYassine)
         
         self.map_rects: List[pygame.Rect] = []
         for i in range(len(self.data)):
