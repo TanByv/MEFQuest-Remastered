@@ -36,8 +36,16 @@ class Game:
         self.k = 1 / 5  # camera sway co-efficient (default: 1/20)
         
         pygame.mixer.init()
-        self.music = pygame.mixer.music.load("assets/sounds/music.mp3")
+        self.music_file_1 = "assets/sounds/start.mp3"
+        self.music_file_2 = "assets/sounds/music.mp3"
+        self.music_file_3 = "assets/sounds/end.mp3"
+        self.music_file_4 = "assets/sounds/credits.mp3"#değiş
+        self.current_music = None
+        # Load the initial music
+        pygame.mixer.music.load(self.music_file_1)
+        self.current_music = self.music_file_1
         pygame.mixer.music.set_volume(0.5)  # Set volume to 50%
+        pygame.mixer.music.play(-1)  # Play the initial music in a loop
 
 
     def update(self):
@@ -189,12 +197,20 @@ class Game:
                         self.result = self.start_mini_game("rektor", "rektor", 33333, 45, 60)
                         if(self.result):
                                 self.player.rect.topleft = (-196, 5000)
+                                if self.current_music != self.music_file_4:
+                                    pygame.mixer.music.load(self.music_file_4)
+                                    self.current_music = self.music_file_4
+                                    pygame.mixer.music.play(-1)
                         else:
                                 self.player.rect.topleft = (-196, 4500)
                     elif x.type == "brokenelevator":
                         if self.run_mini_game():
                             self.player.rect.topleft = (-196, 4500)
                             self.change_background("assets/sprites/glass.png")
+                            if self.current_music != self.music_file_3:
+                                pygame.mixer.music.load(self.music_file_3)
+                                self.current_music = self.music_file_3
+                                pygame.mixer.music.play(-1)
                         else:
                             self.player.rect.topleft = (-160, 3800)
                     elif x.type == "door0":
@@ -204,6 +220,10 @@ class Game:
                     elif x.type == "door2":
                         self.player.rect.topleft = (-58, 3045)
                         self.change_background("assets/sprites/ahsap.png")
+                        if self.current_music != self.music_file_2:
+                            pygame.mixer.music.load(self.music_file_2)
+                            self.current_music = self.music_file_2
+                            pygame.mixer.music.play(-1)
                     elif x.type == "door3":
                         self.player.rect.topleft = (-160, 3800)
 

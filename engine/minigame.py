@@ -231,8 +231,10 @@ class MiniGame:
                 self.box_timer.drawChatB(screen)
 
 
-                if get_elapsed_time() < 0 or self.check == 0:
+                if get_elapsed_time() < 0 and self.player1.number > 0 and self.player2.number > 0:
                     self.check = 0
+                    return 0
+                elif self.check == 0:
                     return 0
                 elif self.check == 1:
                     return 1
