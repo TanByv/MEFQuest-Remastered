@@ -215,8 +215,10 @@ class Game:
                             self.player.rect.topleft = (-160, 3800)
                     elif x.type == "door0":
                         self.player.rect.topleft = (20, 965)
+                        self.change_background("assets/sprites/FLOOR1.png")
                     elif x.type == "door1":
                         self.player.rect.topleft = (-178, 2210)
+                        self.change_background("assets/sprites/FLOOR2.png")
                     elif x.type == "door2":
                         self.player.rect.topleft = (-58, 3045)
                         self.change_background("assets/sprites/ahsap.png")

@@ -24,7 +24,7 @@ class Spriteee(pygame.sprite.Sprite):
         
 class Map:
     def __init__(self, path: str, surface: pygame.surface.Surface, size: float) -> None:
-        self.background_image = pygame.image.load("assets/sprites/jetpack.png").convert_alpha()
+        self.background_image = pygame.image.load("assets/sprites/FLOOR0.png").convert_alpha()
         self.background_width = self.background_image.get_rect().width
         self.background_height = self.background_image.get_rect().height
         # Scale the background image vertically to fit the game window
