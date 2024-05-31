@@ -15,7 +15,7 @@ class Game:
         self.__width = self.width // 2
         self.__height = self.height // 2
         self.game_is_running = True
-        self.FPS = 160
+        self.FPS = 60
 
         self.window = pygame.display.set_mode((self.width, self.height))
         self.screen = pygame.Surface((self.__width, self.__height))
