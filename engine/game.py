@@ -62,12 +62,12 @@ class Game:
         pygame.display.set_caption(f"{fps_caption} | {player_pos_caption}")
         self.screen.fill((5, 5, 5))
 
-        self.light.pos = self.player.pos
+        #self.light.pos = self.player.pos
 
         self.offset += self.k * (self.player.pos - 0.5 * vec2(self.window.get_rect().center) - self.offset)
         self.scroll = vec2(int(self.offset.x), int(self.offset.y - 75))  # set camera offset here
 
-        self.light.show(self.current_map.nearby_rects, self.scroll)
+        #self.light.show(self.current_map.nearby_rects, self.scroll)
 
         self.current_map.draw(self.scroll, self.player.pos, self)
         self.player.move(self.current_map)

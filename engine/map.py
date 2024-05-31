@@ -129,6 +129,9 @@ class Map:
         #yassineChat
         yassineChat = Spriteee(-150, 5050, 'assets/sprites/chat.png', type="savedYassine")
         self.map1.add(yassineChat)
+        #credits
+        credits = Spriteee(550, 5100, 'assets/sprites/credits.png', type="savedYassine")
+        self.map1.add(credits)
         
         self.map_rects: List[pygame.Rect] = []
         for i in range(len(self.data)):
