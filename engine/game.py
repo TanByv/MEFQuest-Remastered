@@ -55,6 +55,7 @@ class Game:
             self.current_map = self.maps[2]
             xdtest = True
             while(xdtest):
+                self.change_background("assets/sprites/FLOOR0.png")
                 self.player.rect.topleft = (14, 210)  
                 xdtest = False
         fps_caption = f"FPS: {int(self.fps.get_fps())}"
@@ -152,43 +153,43 @@ class Game:
                 enemy_coll = pygame.sprite.collide_rect(self.player, x)
                 if enemy_coll:
                     if x.type == "guard":
-                        self.result = self.start_mini_game("guard", "guardian", 30, 10, 30)
+                        self.result = self.start_mini_game("guard", "guardian", 30, 9, 45)
                         if(self.result):
                                 self.player.rect.topleft = (1290, 210)
                         else:
                                 self.player.rect.topleft = (14, 210)                           
                     elif x.type == "kantin":
-                        self.result = self.start_mini_game("kantinci", "kantin", 30, 5, 30)
+                        self.result = self.start_mini_game("kantinci", "kantin", 30, 11, 45)
                         if(self.result):
                                 self.player.rect.topleft = (3000, 210)
                         else:
                                 self.player.rect.topleft = (14, 210)                           
                     elif x.type == "ilker":
-                        self.result = self.start_mini_game("ilker", "ilkay", 20, 15, 30)
+                        self.result = self.start_mini_game("ilker", "ilkay", 19, 21, 30)
                         if(self.result):
                                 self.player.rect.topleft = (2800, 965)
                         else:
                                 self.player.rect.topleft = (20, 965)
                     elif x.type == "student":
-                        self.result = self.start_mini_game("students", "prepstudent", 20, 20, 30)
+                        self.result = self.start_mini_game("students", "prepstudent", 21, 19, 30)
                         if(self.result):
                                 self.player.rect.topleft = (1500, 965)
                         else:
                                 self.player.rect.topleft = (20, 965)
                     elif x.type == "ogrenciisleri":
-                        self.result = self.start_mini_game("ogrenciisleri", "ogrenciisleri", 20, 15, 20)
+                        self.result = self.start_mini_game("ogrenciisleri", "ogrenciisleri", 19, 24, 30)
                         if(self.result):
                                 self.player.rect.topleft = (3650, 2210)
                         else:
                                 self.player.rect.topleft = (-178, 2210)
                     elif x.type == "ilber":
-                        self.result = self.start_mini_game("kutuphaneci", "kutuphane", 20, 15, 20)
+                        self.result = self.start_mini_game("kutuphaneci", "kutuphane", 15, 26, 35)
                         if(self.result):
                                 self.player.rect.topleft = (3100, 3045)
                         else:
                                 self.player.rect.topleft = (-58, 3045)
                     elif x.type == "erhan":
-                        self.result = self.start_mini_game("erhan", "erkut", 20, 15, 20)
+                        self.result = self.start_mini_game("erhan", "erkut", 15, 30, 40)
                         if(self.result):
                                 self.player.rect.topleft = (922, 4500)
                         else:

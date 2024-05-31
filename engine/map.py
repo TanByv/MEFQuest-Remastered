@@ -24,7 +24,7 @@ class Spriteee(pygame.sprite.Sprite):
         
 class Map:
     def __init__(self, path: str, surface: pygame.surface.Surface, size: float) -> None:
-        self.background_image = pygame.image.load("assets/sprites/FLOOR0.png").convert_alpha()
+        self.background_image = pygame.image.load("assets/sprites/startbg.png").convert_alpha()
         self.background_width = self.background_image.get_rect().width
         self.background_height = self.background_image.get_rect().height
         # Scale the background image vertically to fit the game window
@@ -191,6 +191,20 @@ class Map:
             # Draw scrolling background
             for i in range(0, self.tiles):
                 self.surface.blit(self.background_image, (i * self.background_width - background_offset_x, 0))
+        elif self.path == "assets/maps/start_screen.csv":
+            # Calculate the background offset based on the player's position
+            background_offset_x = (player_pos.x - self.player_pos.x) % self.background_width
+            # Draw scrolling background
+            for i in range(0, self.tiles):
+                self.surface.blit(self.background_image, (i * self.background_width - background_offset_x, 0))
+        elif self.path == "assets/maps/default_map.csv":
+            # Calculate the background offset based on the player's position
+            background_offset_x = (player_pos.x - self.player_pos.x) % self.background_width
+            # Draw scrolling background
+            for i in range(0, self.tiles):
+                self.surface.blit(self.background_image, (i * self.background_width - background_offset_x, 0))
+
+        
 
 
         self.nearby_rects.clear()
