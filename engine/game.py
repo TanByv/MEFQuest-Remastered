@@ -144,53 +144,53 @@ class Game:
                 enemy_coll = pygame.sprite.collide_rect(self.player, x)
                 if enemy_coll:
                     if x.type == "guard":
-                        self.result = self.start_mini_game("guard", "guardian", 20, 15, 20)
+                        self.result = self.start_mini_game("guard", "guardian", 30, 10, 30)
                         if(self.result):
-                                self.player.rect.topleft = (-160, 3800)
+                                self.player.rect.topleft = (1290, 210)
                         else:
                                 self.player.rect.topleft = (14, 210)                           
                     elif x.type == "kantin":
-                        self.result = self.start_mini_game("kantinci", "kantin", 20, 15, 20)
+                        self.result = self.start_mini_game("kantinci", "kantin", 30, 5, 30)
                         if(self.result):
-                                self.player.rect.topleft = (-160, 3800)
+                                self.player.rect.topleft = (3000, 210)
                         else:
                                 self.player.rect.topleft = (14, 210)                           
                     elif x.type == "ilker":
-                        self.result = self.start_mini_game("ilker", "ilkay", 20, 15, 20)
+                        self.result = self.start_mini_game("ilker", "ilkay", 20, 15, 30)
                         if(self.result):
-                                self.player.rect.topleft = (-160, 3800)
+                                self.player.rect.topleft = (2800, 965)
                         else:
                                 self.player.rect.topleft = (20, 965)
                     elif x.type == "student":
-                        self.result = self.start_mini_game("students", "prepstudent", 20, 15, 20)
+                        self.result = self.start_mini_game("students", "prepstudent", 20, 20, 30)
                         if(self.result):
-                                self.player.rect.topleft = (-160, 3800)
+                                self.player.rect.topleft = (1500, 965)
                         else:
                                 self.player.rect.topleft = (20, 965)
                     elif x.type == "ogrenciisleri":
                         self.result = self.start_mini_game("ogrenciisleri", "ogrenciisleri", 20, 15, 20)
                         if(self.result):
-                                self.player.rect.topleft = (-160, 3800)
+                                self.player.rect.topleft = (3650, 2210)
                         else:
                                 self.player.rect.topleft = (-178, 2210)
                     elif x.type == "ilber":
                         self.result = self.start_mini_game("kutuphaneci", "kutuphane", 20, 15, 20)
                         if(self.result):
-                                self.player.rect.topleft = (-160, 3800)
+                                self.player.rect.topleft = (3100, 3045)
                         else:
                                 self.player.rect.topleft = (-58, 3045)
                     elif x.type == "erhan":
                         self.result = self.start_mini_game("erhan", "erkut", 20, 15, 20)
                         if(self.result):
-                                self.player.rect.topleft = (-160, 3800)
+                                self.player.rect.topleft = (922, 4500)
                         else:
                                 self.player.rect.topleft = (-196, 4500)
                     elif x.type == "rektor":
-                        self.result = self.start_mini_game("rektor", "rektor", 20, 15, 20)
+                        self.result = self.start_mini_game("rektor", "rektor", 33333, 45, 60)
                         if(self.result):
-                                self.player.rect.topleft = (-160, 3800)
+                                self.player.rect.topleft = (-196, 5000)
                         else:
-                                self.player.rect.topleft = (14, 210)
+                                self.player.rect.topleft = (-196, 4500)
                     elif x.type == "brokenelevator":
                         if self.run_mini_game():
                             self.player.rect.topleft = (-196, 4500)
