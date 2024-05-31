@@ -54,8 +54,16 @@ class Map:
         
         #startscreen
         self.startScreen_group = pygame.sprite.Group()
-        exit_gate = Spriteee(800, 50, 'assets/sprites/door.JPG', type="doorTest")
+        exit_gate = Spriteee(1700, -175, 'assets/sprites/mef.png', type="doorTest")
         self.startScreen_group.add(exit_gate)
+        #epilogue
+        self.startScreen2_group = pygame.sprite.Group()
+        epilogue = Spriteee(400, -100, 'assets/sprites/epilogue.png', type="epilogue")
+        self.startScreen2_group.add(epilogue)
+        #instructions
+        self.startScreen0_group = pygame.sprite.Group()
+        instructions = Spriteee(280, 25, 'assets/sprites/instructions.png', type="ins")
+        self.startScreen0_group.add(instructions)
         #map1
         self.map1 = pygame.sprite.Group()
         guard = Spriteee(830, 30, 'assets/sprites/guard.png', type="guard")
@@ -72,7 +80,7 @@ class Map:
         ilker = Spriteee(2300, 785, 'assets/sprites/ilker.png', type="ilker")
         self.map1.add(ilker)
         #classroom
-        classroom = Spriteee(1000, 730, 'assets/sprites/classroom.PNG', type="classroom")
+        classroom = Spriteee(850, 730, 'assets/sprites/classroom.PNG', type="classroom")
         self.map1.add(classroom)
         #Student
         student = Spriteee(500, 800, 'assets/sprites/students.PNG', type="student")
@@ -193,16 +201,36 @@ class Map:
             pygame.draw.rect(self.surface, (255, 0, 0), self.map1_rect.move(-scroll))
 
         if game.current_map == game.maps[1]:
+            self.startScreen0_group.empty()
             self.map1.empty()
+
             for exit_gate in self.startScreen_group.sprites():
                 exit_rect = exit_gate.rect.move(-scroll)
                 self.surface.blit(exit_gate.scaled_image, exit_rect)
+            for exit_gate in self.startScreen2_group.sprites():
+                exit_rect = exit_gate.rect.move(-scroll)
+                self.surface.blit(exit_gate.scaled_image, exit_rect)
+
         elif game.current_map == game.maps[2]:
             self.startScreen_group.empty()
+            self.startScreen2_group.empty()
+            self.startScreen0_group.empty()
+
             for exit_gate in self.map1.sprites():
+                exit_rect = exit_gate.rect.move(-scroll)
+                self.surface.blit(exit_gate.scaled_image, exit_rect)
+
+        elif game.current_map == game.maps[0]:
+            self.startScreen_group.empty()
+            self.startScreen2_group.empty()
+            self.map1.empty()
+
+            for exit_gate in self.startScreen0_group.sprites():
                 exit_rect = exit_gate.rect.move(-scroll)
                 self.surface.blit(exit_gate.scaled_image, exit_rect)
         else:
             # Clear the exit_group for other maps
             self.startScreen_group.empty()
+            self.startScreen2_group.empty()
+            self.startScreen0_group.empty()
             self.map1.empty()
