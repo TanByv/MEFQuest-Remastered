@@ -3,7 +3,6 @@ from pygame import Vector2 as vec2
 
 from .map import Map
 from .player import Player
-from .light import LightSource
 from .minigame import MiniGame
 from .elevator_minigame import run_game
 from pygame import mixer
@@ -29,7 +28,7 @@ class Game:
         self.current_map = self.maps[0]
 
         self.player = Player("assets/sprites/player.png", self.current_map.map_rect_width, self.screen)
-        self.light = LightSource(self.screen, self.player.pos, (80, 0, 0), 1000)
+        #self.light = LightSource(self.screen, self.player.pos, (80, 0, 0), 1000)
 
         self.offset = vec2(0, 0)
         self.scroll = vec2
